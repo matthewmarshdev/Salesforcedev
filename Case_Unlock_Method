@@ -1,11 +1,11 @@
 /******************************************************************************************
-Developer :   matthew.marsh@state.co.us nathan.gabel@state.co.us craig.fuller@state.co.us
-Created   :   6/2/2017
+Developer :   ~~~~ o_o ~~~~
+Created   :   10/25/2017
 Objective :   Below is a method used to unlock a case object that had been submitted for 
               approval through an Approval Process. This format was found at the link:
               http://sfdc.arrowpointe.com/2009/01/08/invoke-apex-from-a-custom-button-using-a-visualforce-page/
+	     
 *****************************************************************************************/ 
-
 
 //****Visualforce page
 
@@ -29,8 +29,7 @@ public class unlockController {
     }     
     // Code we will invoke on page load.
     public PageReference unlockCase() {
- 
-        String id = ApexPages.currentPage().getParameters().get('case.id');
+
          if (aCase.Id == null) {
             // Display the Visualforce page's content if no Id is passed over
             return null;
@@ -42,3 +41,9 @@ public class unlockController {
         return pageRef;
     }
 }
+
+//***** Custom Button****
+
+After controller and visualforce page have been made, make a custom button and load it
+on the salesforce record page you wish to unlock. Just make sure the custom button uses
+your custom visualvorce page above. 
