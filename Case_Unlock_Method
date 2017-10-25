@@ -1,0 +1,44 @@
+/******************************************************************************************
+Developer :   matthew.marsh@state.co.us nathan.gabel@state.co.us craig.fuller@state.co.us
+Created   :   6/2/2017
+Objective :   Below is a method used to unlock a case object that had been submitted for 
+              approval through an Approval Process. This format was found at the link:
+              http://sfdc.arrowpointe.com/2009/01/08/invoke-apex-from-a-custom-button-using-a-visualforce-page/
+*****************************************************************************************/ 
+
+
+//****Visualforce page
+
+<apex:page standardController="Case" extensions="unlockController" action="{!unlockCase}">
+  <apex:sectionHeader title="Auto-Running Apex Code"/>
+  <apex:outputPanel >
+      You tried calling Apex Code from a button.  If you see this page, something went wrong.  You should have 
+      been redirected back to the record you clicked the button from.
+  </apex:outputPanel>
+</apex:page>
+
+
+//****Controller****
+
+public class unlockController {
+ 
+    // Constructor - this only really matters if the autoRun function doesn't work right
+    private final Case aCase;
+    public unlockController(ApexPages.StandardController stdController) {
+        this.aCase = (case)stdController.getRecord();
+    }     
+    // Code we will invoke on page load.
+    public PageReference unlockCase() {
+ 
+        String id = ApexPages.currentPage().getParameters().get('case.id');
+         if (aCase.Id == null) {
+            // Display the Visualforce page's content if no Id is passed over
+            return null;
+        } 
+		Approval.unlock(aCase);            
+        // Redirect the user back to the original page
+        PageReference pageRef = new PageReference('/' + aCase.Id);
+        pageRef.setRedirect(true);
+        return pageRef;
+    }
+}
